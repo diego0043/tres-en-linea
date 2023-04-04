@@ -18,6 +18,9 @@
 .square {
   width: 100px;
   height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #fff;
 }
 
@@ -123,22 +126,13 @@
   margin-left: auto;
 }
 
-.container-info{
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  bottom: 20px;
-  width: 400px;
-  margin-left: 10px;
-}
-
 .player{
-  border: 2px solid #F0F5F5;
+  border: 2px solid #e1e4e4;
   width: 150px;
   display: block;
   margin-right: auto;
   margin-left: auto;
-  border-radius: 15px;
+  border-radius: 20px;
   text-align: center;
   color: #979797;
   font-size: 20px;
@@ -165,6 +159,11 @@
   color: #fff;
 }
 
+.icon-infinity{
+  margin-right: 5px;
+  color: #35b7cd;
+}
+
 
 .btn-right{
   display: block;
@@ -172,6 +171,13 @@
   width: 100px;
 }
 
+.icon-x{
+  color: #35b7cd;
+}
+
+.icon-o{
+  color: #3684d1;
+}
 /* telefono */
 @media only screen and (max-width: 768px) {
   .container-game{
@@ -181,9 +187,27 @@
   .container-x-o{
     margin-top: 50px;
   }
+
+  .container-info{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    bottom: 20px;
+    width: 400px;
+    margin-left: 10px;
+  }
+
+  
 }
 
 /* tablet o pc */
 @media only screen and (min-width: 769px) {
-    
+  .container-info{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    bottom: 20px;
+    width: 400px;
+    margin-left: 35%;
+  }
 }

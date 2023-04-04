@@ -1,11 +1,11 @@
 import React from "react";
 
-export const ButtonsFooter = () => {
+export const ButtonsFooter = ({reset}) => {
   return (
     <>
       <div className="row center container-info">
         <div className="col-4 center btn-left">
-          <button className="btn-button shadow">
+          <button onClick={reset} className="btn-button shadow">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="30"
