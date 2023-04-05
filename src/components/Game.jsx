@@ -8,12 +8,12 @@ import {
 import { useGame } from "../hooks/useGame";
 
 export const Game = () => {
-  const { getPos, board2, start, reset, changePlayer } = useGame();
+  const { getPos, board2, start, reset, changePlayer, winner } = useGame();
 
   return (
     <>
       <div className="container-principal">
-        <ButtonsHeader start={start} />
+        <ButtonsHeader winner={winner} />
         <ContainerGame getPos={getPos} board2={board2} />
         <ButtonsChooseXO start={start} changePlayer={changePlayer} />
       </div>

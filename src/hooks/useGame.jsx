@@ -1,13 +1,11 @@
 import { useState } from "react";
 
 export const useGame = () => {
-  const [board, setBoard] = useState(Array(9).fill(null));
   const [board2, setBoard2] = useState(Array(9).fill(""));
-  const [board3, setBoard3] = useState(Array(9).fill(""));
-  const [numGames, setNumGames] = useState(3);
   const [player, setPlayer] = useState("x");
-  const [winner, setWinner] = useState(null);
+  const [winner, setWinner] = useState("");
   const [start, setStart] = useState(false);
+  const [winnerExist, setWinnerExist] = useState(false);
 
   const winningMoves = [
     [0, 1, 2],
@@ -21,63 +19,97 @@ export const useGame = () => {
   ];
 
   const getPos = (pos) => {
-    const machine = player === "x" ? "o" : player === "o" ? "x" : null;
-    const arrayCopy = [...board2];
-    let arrayMachine = [];
-    arrayCopy[pos] = player;
-
-    arrayCopy.forEach((element, index) => {
-        if (element != "x" && element != "o") {
+    if (!winnerExist && board2[pos] !== "x" && board2[pos] !== "o") {
+      const machine = player === "x" ? "o" : player === "o" ? "x" : null;
+      const arrayCopy = [...board2];
+      let arrayMachine = [];
+      arrayCopy[pos] = player;
+      let playerWinner = checkWinner(arrayCopy);
+      if (playerWinner) {
+        setBoard2(arrayCopy);
+        setWinner(playerWinner);
+        setWinnerExist(true);
+      } else {
+        arrayCopy.forEach((element, index) => {
+          if (element === "") {
             arrayMachine.push(index);
+          } else if (element === "x" || element === "o") {
+            return null;
+          }
+        });
+
+        let numRandom = Math.floor(Math.random() * arrayMachine.length);
+        let contador = 0;
+        while (arrayCopy[numRandom] === "x" || arrayCopy[numRandom] === "o") {
+          numRandom = randMachine(arrayCopy);
+          contador++;
+          if (arrayMachine.length === 1 || contador === 10) {
+            break;
+          }
         }
-    });
 
-    const numRandom = Math.floor(Math.random() * arrayMachine.length);
-    arrayCopy[numRandom]  = machine;
-    setBoard2(arrayCopy);
+        arrayCopy[numRandom] = machine;
+        setBoard2(arrayCopy);
+        setStart(true);
+        playerWinner = checkWinner(arrayCopy);
+        if (playerWinner) {
+          setWinner(playerWinner);
+          setWinnerExist(true);
+        }
 
-
-
-    //console.log(arrayMachine, arrayCopy);
-
-    /* setBoard2(arrayCopy);
-    const randon = movingMachine();
-    randMachine(randon);
-    setStart(true); */
+        const gameContinue = gameCanContinue(arrayCopy);
+        if (gameContinue === 0) {
+          setWinner("Empate");
+          setWinnerExist(true);
+        }
+      }
+    }
   };
 
-  const randMachine = ( pos ) => {
-    const machine = player === "x" ? "o" : player === "o" ? "x" : null;
-    const arrayCopy = [...board2];
-    arrayCopy[pos] = machine;
-    setBoard2(arrayCopy);
-  }
+  const randMachine = (array) => {
+    const numRandom = Math.floor(Math.random() * array.length);
+    return numRandom;
+  };
+
+  const checkWinner = (arrayGame) => {
+    let winner = null;
+    winningMoves.forEach((element) => {
+      const [a, b, c] = element;
+      if (
+        arrayGame[a] &&
+        arrayGame[a] === arrayGame[b] &&
+        arrayGame[a] === arrayGame[c]
+      ) {
+        winner = arrayGame[a];
+      }
+    });
+    return winner;
+  };
 
   const reset = () => {
-    setBoard(Array(9).fill(null));
     setBoard2(Array(9).fill(""));
-    setNumGames(3);
     setPlayer("x");
     setWinner(null);
     setStart(false);
+    setWinnerExist(false);
   };
 
   const changePlayer = (state) => {
     state ? setPlayer("o") : setPlayer("x");
   };
 
-  const movingMachine = () => {
-    let arrayTest = [];
-    board2.forEach((element, index) => {
-        if ( element === ""){
-            arrayTest.push(index)
-        }
+  const gameCanContinue = (array) => {
+    let arrayParse = [];
+    array.forEach((element, index) => {
+      if (element === "") {
+        arrayParse.push(index);
+      } else if (element === "x" || element === "o") {
+        return null;
+      }
     });
 
-    
-    let random = Math.floor(Math.random() * arrayTest.length);
-    return arrayTest[random];
-  };    
+    return arrayParse.length;
+  };
 
   return {
     getPos,
@@ -85,5 +117,6 @@ export const useGame = () => {
     start,
     reset,
     changePlayer,
+    winner,
   };
 };

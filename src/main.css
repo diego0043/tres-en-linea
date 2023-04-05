@@ -93,7 +93,7 @@
 
 .text-col2 {
   color: #3684d1;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
 }
 
@@ -177,6 +177,13 @@
 
 .icon-o{
   color: #3684d1;
+}
+
+.img-modal{
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 50px;
 }
 /* telefono */
 @media only screen and (max-width: 768px) {
